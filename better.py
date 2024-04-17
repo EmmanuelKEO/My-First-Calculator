@@ -1,4 +1,7 @@
-def calculate(expression:str):
+OPERATORS:list = ['/', '*', '-', '+', '(', ')']
+NUMBERS:list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.']
+ALPHABETS:list = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+def calculate(expression:str) -> float:
     expression = '+' + expression
     expression = expression + '+'
     process:list = []
@@ -13,13 +16,14 @@ def calculate(expression:str):
     b1:int = 0
     b2:int = 0
     catch:bool = False
+
     for current_item in expression:
-        if has_valid_alphabets(current_item):
+        if current_item in ALPHABETS:
             while True:
                 print(current_item + '?')
-                response:str = input('>')
-                if has_valid_numbers(response):
-                    if has_valid_numbers(prevoius_item):
+                response:str = input('>>')
+                if response in NUMBERS:
+                    if prevoius_item in NUMBERS:
                         process.append('*')
                     process.append(response)
                     break
@@ -30,26 +34,21 @@ def calculate(expression:str):
         prevoius_item = current_item
    
     for current_item in process:
-        if current_item in ['+','-','(',')','*','/','#']:
+        if current_item in OPERATORS + ['#']:
             if number == '' and current_item == '(':
                 number = '1.0'
-
             if not number == '':
                 process1.append(float(number) * sign)
                 number = ''
                 sign = 1
-
             if current_item in ['(',')','*','/','#']:
                 process1.append(current_item)
             else:
                 process1.append('#')
-
         else:
             number = number + current_item
-
         if current_item == '+':
             sign = 1
-
         if current_item == '-':
             sign = -1
     number = ''
@@ -105,33 +104,15 @@ def calculate(expression:str):
                 number = current_item
             else:
                 number = str(float(number) * float(current_item))
-    number = ''
     for current_item in process4:
         if not current_item == '#':
            result = result + current_item
     return result
 
 def is_valid(expression:str) -> bool:
+    VALID:list = NUMBERS + OPERATORS + ALPHABETS + [' ']
     for item in expression:
-        if not item in ['1','2','3','4','5','6','7','8','9','0','-','+','*','/','.','(',')',' ']:
-            return False
-    return True
-
-def has_valid_operators(expression:str) -> bool:
-    for item in expression:
-        if not item in ['/','*','-','+','(',')']:
-            return False
-    return True
-
-def has_valid_numbers(expression:str) -> bool:
-    for item in expression:
-        if not item in ['1','2','3','4','5','6','7','8','9','0','.']:
-            return False
-    return True
-
-def has_valid_alphabets(expression:str) -> bool:
-    for item in expression:
-        if not item.lower() in ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']:
+        if not item in VALID:
             return False
     return True
 
@@ -142,10 +123,8 @@ def main() -> None:
         response = input('>')
         if response.upper() in ['HELP','?']:
             print('This is a basic calculator that supports the following operations: + - / * ()')
-        elif  '=' in response:
-            print('"=" is not supported!')
         elif response.upper() in ['EXIT','END','QUIT','CLOSE']:
-            input('press enter to quit.')
+            input('press any key to quit.')
             break
         elif is_valid(response):
             print(calculate(response))
