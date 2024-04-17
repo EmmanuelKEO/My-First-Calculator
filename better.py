@@ -1,7 +1,7 @@
 OPERATORS:list = ['/', '*', '-', '+', '(', ')']
 NUMBERS:list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.']
 ALPHABETS:list = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-def calculate(expression:str) -> float:
+def Calculate(expression:str) -> float:
     expression = '+' + expression
     expression = expression + '+'
     process:list = []
@@ -16,7 +16,6 @@ def calculate(expression:str) -> float:
     b1:int = 0
     b2:int = 0
     catch:bool = False
-
     for current_item in expression:
         if current_item in ALPHABETS:
             while True:
@@ -32,7 +31,6 @@ def calculate(expression:str) -> float:
         else:
             process.append(current_item)
         prevoius_item = current_item
-   
     for current_item in process:
         if current_item in OPERATORS + ['#']:
             if number == '' and current_item == '(':
@@ -70,7 +68,7 @@ def calculate(expression:str) -> float:
                     process2.append(current_item)
             else:
                 process2.append('*')
-                process2.append(calculate(number))
+                process2.append(Calculate(number))
                 number = ''
         if b1 == 1:
             catch = True
@@ -127,7 +125,7 @@ def main() -> None:
             input('press any key to quit.')
             break
         elif is_valid(response):
-            print(calculate(response))
+            print(Calculate(response))
         else:
             print('invalid input')
 
